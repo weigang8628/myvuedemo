@@ -2,10 +2,10 @@
   <div class="List">
     <div class="tabs">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-    <el-tab-pane label="待办" name="first">待办</el-tab-pane>
-    <el-tab-pane label="已办" name="second">已办</el-tab-pane>
-    <el-tab-pane label="新建" name="third">新建</el-tab-pane>
-    <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+    <el-tab-pane label="待办" name="first"></el-tab-pane>
+    <el-tab-pane label="已办" name="second"></el-tab-pane>
+    <el-tab-pane label="新建" name="third"></el-tab-pane>
+    <el-tab-pane label="定时任务补偿" name="fourth"></el-tab-pane>
   </el-tabs>
     </div>
     <el-table :height="height" :data="tableData" stripe style="width: 100%" :row-class-name='fn' @row-click='click'>

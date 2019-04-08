@@ -18,6 +18,8 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
     "@vue/cli-service": "^3.5.0",
+    "element-theme-chalk": "^2.7.2",
+    "element-theme-default": "^1.4.13",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.21"

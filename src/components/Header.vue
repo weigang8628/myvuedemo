@@ -10,7 +10,7 @@
     </el-dropdown> -->
     您好，<span style="margin-right: 15px">王小虎</span>欢迎登陆系统！
     <!-- <el-button type="danger" round>退出</el-button> -->
-    <el-button type="text">个人设置</el-button>
+    <!-- <el-button type="text">个人设置</el-button> -->
     <el-button type="text" @click="exitfn">退出</el-button>
   </div>
 </template>

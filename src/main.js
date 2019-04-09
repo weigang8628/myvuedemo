@@ -6,7 +6,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '../theme/index.css'
 Vue.use(ElementUI);
-import axios from 'axios'
+import qs from 'qs';
+Vue.prototype.$qs = qs;
 import {post,fetch,patch,put} from './axios/http'
 //定义全局变量
 Vue.prototype.$post=post;
@@ -16,7 +17,7 @@ Vue.prototype.$put=put;
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
-    if (sessionStorage.getItem('TABS')) { //判断本地是否存在
+    if (sessionStorage.getItem('MENU')) { //判断本地是否存在
       next();
     } else {
       if (to.path === '/') {

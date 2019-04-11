@@ -67,6 +67,8 @@ export function fetch(url,params={}){
  */
 
  export function post(url,data={}){
+
+     data.sessionId = JSON.parse(sessionStorage.getItem('SESSIONID'))
     let postData = this.$qs.stringify(data)
    return new Promise((resolve,reject) => {
      axios.post(url,postData)

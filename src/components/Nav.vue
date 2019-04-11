@@ -2,8 +2,9 @@
 
   <el-scrollbar style="height: 100%">
     <!-- {{GET_CURRENT_NAV}} -->
+    <!-- {{GET_MENU}} -->
     <el-menu :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose">
-      <el-submenu :index="item.index" v-for="(item,index) in navlist" :key="index">
+      <el-submenu :index="item.index" v-for="(item,index) in GET_MENU" :key="index">
         <template slot="title">
           <!-- 一级菜单 -->
           <i class="el-icon-menu"></i>
@@ -14,7 +15,9 @@
           <!-- 二级循环没三级 -->
           <el-menu-item :index="item2.index" v-if='!item2.children' @click="navclickfn(item2)">{{item2.title}}</el-menu-item>
           <!-- 二级循环有三级 -->
-          <el-submenu v-else :index="item2.index" v-for="(item2,index) in item.children" :key="index">
+
+          <!-- <el-submenu v-else :index="item2.index" v-for="(item2,index) in item.children" :key="index"> -->
+          <el-submenu v-else :index="item2.index">
             <template slot="title">{{item2.title}}</template>
             <!-- 三级循环 -->
             <el-menu-item :index="item3.index" v-for="(item3,index) in item2.children" :key="index" @click="navclickfn(item3)">{{item3.title}}</el-menu-item>
@@ -69,87 +72,95 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      defaultActive: '1-1',//当前选中
-      defaultOpeneds: ['1'],//默认真开的层级
-      navlist: [
-        {
-          title: "我的工作台",
-          index: "1",
-          children: [
-            {
-              title: "系统首页",
-              index: "1-1",
-              path: "/Home/Main"
-            },
-            {
-              title: "我的待办",
-              index: "1-2",
-              path: "/Home/List"
-            },
-            {
-              title: "我的已办",
-              index: "1-3",
-              path: "/Home/List"
-            }
-          ]
-        },
-        {
-          title: "一级导航",
-          index: "2",
-          children: [
-            {
-              title: "二级导航",
-              index: "2-1",
-              path: "db",
-              children: [
-                {
-                  title: "三导航1",
-                  index: "2-1-1",
-                  path: "/Home/List1",
-                },
-                {
-                  title: "三导航2",
-                  index: "2-1-2",
-                  path: "/Home/List1",
-                },
-                {
-                  title: "三导航3",
-                  index: "2-1-3",
-                  path: "/Home/List1",
-                },
-                {
-                  title: "三导航4",
-                  index: "2-1-4",
-                  path: "/Home/List1",
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      defaultActive: '1-1-1',//当前选中
+      defaultOpeneds: ['1', '1-1'],//默认真开的层级
+      //   navlist: [
+      //     {
+      //       title: "我的工作台",
+      //       index: "1",
+      //       children: [
+      //         {
+      //           title: "系统首页",
+      //           index: "1-1",
+      //           path: "/Home/Main"
+      //         },
+      //         {
+      //           title: "我的待办",
+      //           index: "1-2",
+      //           path: "/Home/List"
+      //         },
+      //         {
+      //           title: "我的已办",
+      //           index: "1-3",
+      //           path: "/Home/List"
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       title: "一级导航",
+      //       index: "2",
+      //       children: [
+      //         {
+      //           title: "二级导航",
+      //           index: "2-1",
+      //           path: "db",
+      //           children: [
+      //             {
+      //               title: "三导航1",
+      //               index: "2-1-1",
+      //               path: "/Home/List1",
+      //             },
+      //             {
+      //               title: "三导航2",
+      //               index: "2-1-2",
+      //               path: "/Home/List1",
+      //             },
+      //             {
+      //               title: "三导航3",
+      //               index: "2-1-3",
+      //               path: "/Home/List1",
+      //             },
+      //             {
+      //               title: "三导航4",
+      //               index: "2-1-4",
+      //               path: "/Home/List1",
+      //             }
+      //           ]
+      //         }
+      //       ]
+      //     }
+      //   ]
     };
   },
   computed: {
-    ...mapGetters(["GET_CURRENT_NAV"]),
+    ...mapGetters(["GET_CURRENT_NAV", "GET_MENU"]),
   },
-  mounted() {
+  created() {
+      
     //   初始化
     this.$store.dispatch('CURRENT_NAV', this.GET_CURRENT_NAV);
     this.defaultActive = this.GET_CURRENT_NAV.index;
-    this.navclickfn(this.navlist[0].children[0]) 
+    let id = this.$route.query.id
+    let resolutearr = this.GET_MENU.flat()//展开多维数组
+    debugger;
+    resolutearr.map((item, index) => {
+      if (item.index == id) {
+        this.navclickfn(item)
+      }
+    })
   },
   methods: {
-    // ...mapActions(['CURRENT_NAV']),
     navclickfn(item) {
+        debugger
       this.$store.dispatch('CURRENT_NAV', item);
       this.defaultActive = item.index;
       sessionStorage.setItem('CURRENT_NAV', JSON.stringify(item))
-      this.$router.push({
-        path: item.path,
+      this.$router.replace({
+        path: '/Home' + item.path,
         query: {
-          id: item.index
+          id: item.index,
+          currentid:item.id
         }
-
       })
 
     },

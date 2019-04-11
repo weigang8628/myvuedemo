@@ -2,15 +2,17 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as types from './type-store.js'
 Vue.use(Vuex)
-var getcurrentnav = JSON.parse(sessionStorage.getItem('CURRENT_NAV'))
-var gettabs = JSON.parse(sessionStorage.getItem('TABS'))
-var getcurrenttabname = JSON.parse(sessionStorage.getItem('CURRENT_TAB_NAME'))
+// var getcurrentnav = JSON.parse(sessionStorage.getItem('CURRENT_NAV'))
+// var gettabs = JSON.parse(sessionStorage.getItem('TABS'))
+// var getcurrenttabname = JSON.parse(sessionStorage.getItem('CURRENT_TAB_NAME'))
+// var menu = JSON.parse(sessionStorage.getItem('MENU'))
 export default new Vuex.Store({
     state: {
         page: {
-            currentnav: getcurrentnav || {},
-            tabs:gettabs  || [],
-            currenttabname:getcurrenttabname || '0'
+            currentnav: JSON.parse(sessionStorage.getItem('CURRENT_NAV')) || {},
+            tabs:JSON.parse(sessionStorage.getItem('TABS'))  || [],
+            currenttabname:JSON.parse(sessionStorage.getItem('CURRENT_TAB_NAME')) || '0',
+            menu:JSON.parse(sessionStorage.getItem('MENU')) || []
             
         }
     },
@@ -24,6 +26,9 @@ export default new Vuex.Store({
         [types.CURRENT_TAB_NAME](state, current) {
             state.page.currenttabname = current
         },
+        [types.MENU](state, current) {
+            state.page.menu = current
+        },
     },
     actions: {
         [types.CURRENT_NAV]({ commit }, current) {
@@ -35,6 +40,9 @@ export default new Vuex.Store({
         [types.CURRENT_TAB_NAME]({ commit }, current) {
             commit(types.CURRENT_TAB_NAME, current)
         },
+        [types.MENU]({ commit }, current) {
+            commit(types.MENU, current)
+        },
     },
     getters: {
         ['GET_'+types.CURRENT_NAV](state) {
@@ -45,6 +53,9 @@ export default new Vuex.Store({
         },
         ['GET_'+types.CURRENT_TAB_NAME](state) {
             return state.page.currenttabname
+        },
+        ['GET_'+types.MENU](state) {
+            return state.page.menu
         },
     }
 })

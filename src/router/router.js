@@ -31,6 +31,11 @@ export default new Router({
         name:'List1',
         component: () => import(/* webpackChunkName: "List1" */ '../views/List1.vue'),
         meta: { requireAuth: true },
+      },{
+        path:'Listxx',
+        name:'Listxx',
+        component: () => import(/* webpackChunkName: "Listxx" */ '../views/Listxx.vue'),
+        meta: { requireAuth: true },
       },
     ]
     },

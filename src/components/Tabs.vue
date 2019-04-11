@@ -1,8 +1,11 @@
 <template>
   <div class="tabs">
+      <!-- {{editableTabsValue2}} --{{tabIndex}} -->
     <!-- {{editableTabsValue2}}-{{editableTabs2}} -->
     <el-tabs v-if="editableTabs2.length" v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab" @tab-click='tab_click(editableTabsValue2)'>
-      <el-tab-pane v-for="(item, index) in editableTabs2" :key="item.name" :label="item.title" :name="item.name">{{item.content}}-1111</el-tab-pane>
+      <el-tab-pane v-for="(item, index) in editableTabs2" :key="item.name" :label="item.title" :name="item.name">
+          <!-- {{item.content}}-1111 -->
+      </el-tab-pane>
     </el-tabs>
     <!-- <div style="margin-bottom: 20px;">
       <el-button size="small" @click="addTab()">add tab</el-button>
@@ -23,10 +26,9 @@ export default {
     ...mapGetters(["GET_CURRENT_NAV", "GET_TABS", "GET_CURRENT_TAB_NAME"]),
   },
   mounted() {
-    //   this.editableTabs2 = 
     this.editableTabs2 = this.GET_TABS;//所有点击过的tabs
     this.editableTabsValue2 = this.GET_CURRENT_TAB_NAME;//选中项的name值
-
+this.tabIndex =this.editableTabs2.length
   },
   methods: {
     // ...mapActions(['CURRENT_NAV']),
@@ -66,18 +68,15 @@ export default {
           this.$store.dispatch('CURRENT_NAV', item.currentnav)
           sessionStorage.setItem('CURRENT_NAV', JSON.stringify(item.currentnav))
           //   tabs跳转路由
-          this.$router.push({
-            path: item.currentnav.path,
+          this.$router.replace({
+            path: '/Home'+item.currentnav.path,
             query: {
-              id: item.currentnav.index
+              id: item.currentnav.index,
+              currentid:item.currentnav.id
             }
           })
         }
       })
-
-
-
-
     }
   },
   watch: {
@@ -112,7 +111,6 @@ export default {
     editableTabsValue2(val, oldVal) {
       console.log(val);
       this.editableTabs2.map((item, index) => {
-
         if (item.name == val) {
           sessionStorage.setItem('CURRENT_TAB_NAME', JSON.stringify(item.name))
         }
@@ -128,7 +126,7 @@ export default {
 
 <style lang="less" scoped>
 .tabs {
-  padding: 10px;
+  padding: 10px 10px 0 10px;
 }
 </style>
 

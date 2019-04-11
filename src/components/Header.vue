@@ -8,7 +8,7 @@
         <el-dropdown-item>删除</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown> -->
-    您好，<span style="margin-right: 15px">王小虎</span>欢迎登陆系统！
+    您好，<span style="margin-right: 15px"><b>{{userName}}</b></span>欢迎登陆系统！
     <!-- <el-button type="danger" round>退出</el-button> -->
     <!-- <el-button type="text">个人设置</el-button> -->
     <el-button type="text" @click="exitfn">退出</el-button>
@@ -17,7 +17,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+        userName:JSON.parse(sessionStorage.getItem('USERNAME')),
+    };
   },
   methods: {
     exitfn() {
@@ -26,15 +28,15 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        //   清楚session
-        sessionStorage.removeItem(['CURRENT_NAV'])
-        sessionStorage.removeItem(['CURRENT_TAB_NAME'])
-        sessionStorage.removeItem(['TABS'])
+        //   清楚所有session
+        sessionStorage.clear()
+        window.location.reload()//刷新重置vuex的数据（清空）
         // 跳转到首页
-        this.$router.push({
+        this.$router.replace({
           path: '/',
 
         })
+        
       })
     }
   }

@@ -1,0 +1,12 @@
+.el-main{
+    padding-top: 0px !important;
+}
+/* .el-scrollbar__view > ul > li {
+    border-top: 1px solid #ff0000;
+} */
+.el-scrollbar__view > ul > li > div.el-submenu__title{
+    border-bottom: 1px solid #e6e6e6;
+}
+[v-cloak] {
+   	  display: none;
+ 	}

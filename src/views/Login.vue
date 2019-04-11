@@ -9,9 +9,9 @@
           <el-input v-model="username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="密码">
-          <el-input v-model="password" placeholder="请输入用户名"></el-input>
+          <el-input v-model="password" placeholder="请输入密码" show-password></el-input>
         </el-form-item>
-        <el-button type="primary" style="width:100%;" @click="login">登录</el-button>
+        <el-button type="primary" style="width:100%;" @click="login" >登录</el-button>
       </div>
     </el-form>
   </div>
@@ -27,6 +27,8 @@ export default {
       username: '',
       password: ''
     }
+  },
+  created(){
   },
   methods: {
     login() {
@@ -44,16 +46,7 @@ export default {
             console.log(res)
             let data = res.data;
             if (res.code == 0) {
-              // 登录成功
-              this.$router.push({
-                path: '/Home/Main',
-                query: {
-                  id: '1-1'
-                }
-              })
-              sessionStorage.setItem('MENU', JSON.stringify(data.menu))
-              sessionStorage.setItem('SESSIONID', JSON.stringify(data.sid))
-              console.log('all-nav', data.menu);
+
               let navs = data.menu;
               let newnavs = []
 
@@ -72,7 +65,7 @@ export default {
                   let k = 0;
                   navs.map((item2, index2) => {
                     if (item.id == item2.parentMenuId) {
-                      k+=1;
+                      k += 1;
                       let j = 0;
                       let obj2 = {
                         id: item2.id,
@@ -81,72 +74,50 @@ export default {
                         path: item2.mobileUrl,
                       }
                       nav2.push(obj2)
-                      //  333333
+                      //  三级菜单
                       obj2.children = []
                       navs.map((item3, index3) => {
                         if (obj2.id == item3.parentMenuId) {
-                            j+=1;
+                          j += 1;
                           let obj3 = {
                             id: item3.id,
-                            index: String((index + 1) + '-' + (k)+ '-' + (j)),
+                            index: String((index + 1) + '-' + (k) + '-' + (j)),//拼接需要的index的结构1-1-1
                             title: item3.menuName,
                             path: item3.mobileUrl,
                           }
                           obj2.children.push(obj3)
                         }
                       })
-
-
-
-                      // let nav3 = nav2[i].children = []
-                      //   navs.map((item3, index3) => {
-                      //       if(item2.id == item3.parentMenuId){
-                      //          nav3.push({
-                      //              title: item3.menuName,
-                      //     path: item3.mobileUrl,
-                      //          })
-
-                      //       }
-                      //   })
                     }
                   })
                 }
               })
-
-
-
+              sessionStorage.setItem('MENU', JSON.stringify(newnavs))//缓存处理后的三级菜单
+              sessionStorage.setItem('SESSIONID', JSON.stringify(data.sid))//缓存sessionid
+              sessionStorage.setItem('USERNAME', JSON.stringify(data.userModel.userName))//缓存当前用户名
+              this.$store.commit('MENU',newnavs)//整体菜单存入vuex
+              this.$store.commit('TABS',[])//整体菜单存入vuex
+              console.log('all-nav', data.menu);
+              // 登录成功
+              this.$router.replace({
+                path: '/Home/List',
+                query: {
+                  id: '1-1-1',
+                  currentid:'2c9110d167ba9f3d0167bb5395fe0028'
+                }
+              })
               console.log('newnav', newnavs);
-
-
-
-
             } else {
               this.$alert(res.msg, '提示', {
                 confirmButtonText: '确定',
                 callback: action => {
                   this.username = ''
                   this.password = ''
-
                 }
               });
             }
           })
       }
-
-      //   if (this.username == 'aaa' && this.password == '123') {
-      //     this.$router.push({
-      //       path: '/Home/Main',
-      //       query: {
-      //         id: '1-1'
-      //       }
-      //     })
-      //     var bb = []
-      //     sessionStorage.setItem('TABS', JSON.stringify(bb))
-      //   } else {
-      //     this.$message.error('用户名或这密码不对，请重新输入！');
-      //     this.username = ''
-      //       this.password = ''
-      //   }
     },
 
   },

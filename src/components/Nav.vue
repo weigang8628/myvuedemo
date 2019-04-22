@@ -7,7 +7,7 @@
       <el-submenu :index="item.index" v-for="(item,index) in GET_MENU" :key="index">
         <template slot="title">
           <!-- 一级菜单 -->
-          <i class="el-icon-menu"></i>
+          <i :class="item.icon | qcmh"></i>
           {{item.title}}
         </template>
 
@@ -136,22 +136,37 @@ export default {
     ...mapGetters(["GET_CURRENT_NAV", "GET_MENU"]),
   },
   created() {
-      
+
     //   初始化
     this.$store.dispatch('CURRENT_NAV', this.GET_CURRENT_NAV);
     this.defaultActive = this.GET_CURRENT_NAV.index;
     let id = this.$route.query.id
-    let resolutearr = this.GET_MENU.flat()//展开多维数组
-    debugger;
+    let resolutearr = this.GET_MENU//展开多维数组
+
     resolutearr.map((item, index) => {
       if (item.index == id) {
         this.navclickfn(item)
+      } else {
+        item.children.map((item2, index2) => {
+          if (item2.index == id) {
+            this.navclickfn(item2)
+          } else {
+            item2.children.map((item3, index3) => {
+              if (item3.index == id) {
+                this.navclickfn(item3)
+              } else {
+
+              }
+            })
+          }
+        })
       }
     })
+
+    
   },
   methods: {
     navclickfn(item) {
-        debugger
       this.$store.dispatch('CURRENT_NAV', item);
       this.defaultActive = item.index;
       sessionStorage.setItem('CURRENT_NAV', JSON.stringify(item))
@@ -159,7 +174,7 @@ export default {
         path: '/Home' + item.path,
         query: {
           id: item.index,
-          currentid:item.id
+          currentid: item.id
         }
       })
 

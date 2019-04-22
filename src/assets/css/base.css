@@ -1,3 +1,5 @@
+@import "//at.alicdn.com/t/font_1019728_eld9qnpnrgb.css";
+
 .el-main{
     padding-top: 0px !important;
 }
@@ -7,6 +9,55 @@
 .el-scrollbar__view > ul > li > div.el-submenu__title{
     border-bottom: 1px solid #e6e6e6;
 }
+.el-menu-item.is-active{
+    /* background-color: #ffffff; */
+    background:rgba(196, 0, 1, 0.1);
+    color: #c40001;
+    font-weight: bold;
+}
 [v-cloak] {
    	  display: none;
- 	}
+     }
+     
+     /* .is-opened ,.is-opened > div , .is-opened ul .is-active{
+         border-bottom: 1px solid #c40001;
+     } */
+     /* .is-active 当前打开的一级变色   is-opened 所有打开的都会变色 */
+     .is-active >div{
+        background-color: #c40001;
+        color: #ffffff;
+     }
+     .is-active >div:hover{
+        background-color: #c40001;
+        color: #ffffff;
+     }
+     .is-active >div i{
+        color: #ffffff;
+     }
+     /* 2级 */
+     .el-menu--inline li div{
+        /* background-color: yellow; */
+        /* background:rgba(196, 0, 1, 0.1); */
+        background-color: #ffffff;
+        color: #333333;
+        border-bottom: 1px solid #e6e6e6;
+        
+     }
+     .el-menu--inline li div:hover{
+        /* background-color: yellow; */
+        background:rgba(196, 0, 1, 0.1);
+        /* background-color: #ffffff; */
+        color: #333333;
+        border-bottom: 1px solid #e6e6e6;
+     }
+     .el-menu--inline li div i{
+      
+        color: #333333;
+     }
+     .el-submenu__title:focus{
+        background-color: #ffffff;
+        /* color: #ffffff; */
+     }
+     .el-menu--inline >div > li:last-child{
+         border-bottom: 1px solid #e6e6e6;
+     }

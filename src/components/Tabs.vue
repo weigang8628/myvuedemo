@@ -1,10 +1,10 @@
 <template>
   <div class="tabs">
-      <!-- {{editableTabsValue2}} --{{tabIndex}} -->
+    <!-- {{editableTabsValue2}} --{{tabIndex}} -->
     <!-- {{editableTabsValue2}}-{{editableTabs2}} -->
     <el-tabs v-if="editableTabs2.length" v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab" @tab-click='tab_click(editableTabsValue2)'>
       <el-tab-pane v-for="(item, index) in editableTabs2" :key="item.name" :label="item.title" :name="item.name">
-          <!-- {{item.content}}-1111 -->
+        <!-- {{item.content}}-1111 -->
       </el-tab-pane>
     </el-tabs>
     <!-- <div style="margin-bottom: 20px;">
@@ -25,10 +25,15 @@ export default {
   computed: {
     ...mapGetters(["GET_CURRENT_NAV", "GET_TABS", "GET_CURRENT_TAB_NAME"]),
   },
-  mounted() {
+  created() {
     this.editableTabs2 = this.GET_TABS;//所有点击过的tabs
     this.editableTabsValue2 = this.GET_CURRENT_TAB_NAME;//选中项的name值
-this.tabIndex =this.editableTabs2.length
+    this.tabIndex = this.editableTabs2.length;
+    // 初始化如果tabs中没有数据才执行，第一次执行
+    if (this.editableTabs2.length == 0) {
+      this.addTab()
+    }
+
   },
   methods: {
     // ...mapActions(['CURRENT_NAV']),
@@ -69,10 +74,10 @@ this.tabIndex =this.editableTabs2.length
           sessionStorage.setItem('CURRENT_NAV', JSON.stringify(item.currentnav))
           //   tabs跳转路由
           this.$router.replace({
-            path: '/Home'+item.currentnav.path,
+            path: '/Home' + item.currentnav.path,
             query: {
               id: item.currentnav.index,
-              currentid:item.currentnav.id
+              currentid: item.currentnav.id
             }
           })
         }
@@ -118,7 +123,7 @@ this.tabIndex =this.editableTabs2.length
     },
     // 监听路由变化
     $route(to, from) {
-      console.log('路由发生变化',to.path);
+      console.log('路由发生变化', to.path);
     }
   }
 }
@@ -126,7 +131,7 @@ this.tabIndex =this.editableTabs2.length
 
 <style lang="less" scoped>
 .tabs {
-  padding: 10px 10px 0 10px;
+  padding: 10px 20px 0 20px;
 }
 </style>
 

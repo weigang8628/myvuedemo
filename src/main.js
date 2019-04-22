@@ -45,6 +45,11 @@ router.beforeEach((to, from, next) => {
   //   }
   // }
 });
+// 过滤器，清楚icon冒号
+Vue.filter('qcmh', function(el){
+        return  el.charAt(0) == ':'? el.substring(1):el
+    })
+    
 new Vue({
   router,
   store,

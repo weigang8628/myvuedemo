@@ -3,9 +3,10 @@
     <!-- 办理按钮组 -->
     <div class="allbtn">
       <div>
-        <el-button v-if="isshowdel" :disabled='disabled' plain @click="delfn" size="medium">删除</el-button>
-        <el-button v-if="this.formdata.query" plain @click="clearfn" size="medium">清空搜索条件</el-button>
-        <el-button v-if="this.formdata.query"  type="text" size="medium">共为您搜索到 <b>{{total}}</b> 条记录</el-button>
+        <el-button v-if="isshowdel" :disabled='disabled' type="primary" @click="delfn" size="medium" icon="el-icon-delete">删除</el-button>
+        <el-button type="primary" @click="reloadfn" size="medium" icon="el-icon-refresh">刷新</el-button>
+        <el-button v-if="this.formdata.query" @click="clearfn" size="medium">清空搜索条件</el-button>
+        <el-button v-if="this.formdata.query" type="text" size="medium">共为您搜索到 <b>{{total}}</b> 条记录</el-button>
       </div>
       <div>
         <el-input placeholder="请输入关键字" v-model="searchInput" class="input-with-select" size="medium">
@@ -13,25 +14,25 @@
         </el-input>
       </div>
     </div>
-    <el-table v-if="isdblist" :height="height" :data="tableData" style="width: 100%" :row-class-name='fn' @row-click='click' @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55">
+    <el-table v-if="isdblist" :height="height" :data="tableData" style="width: 100%" @row-click='click' @selection-change="handleSelectionChange" v-loading="loading">
+      <el-table-column type="selection" width="55" :selectable='selectable'>
       </el-table-column>
       <el-table-column prop="TITLE" label="标题">
       </el-table-column>
       <el-table-column prop="STEPNAME" label="节点" width="170" align="center">
       </el-table-column>
-      <el-table-column prop="USER_USERNAME" label="办理人" width="100" align="center">
+      <el-table-column prop="USER_USERNAME" label="发起人" width="100" align="center">
       </el-table-column>
       <el-table-column prop="UPDATEDATE" label="办理日期" width="170" align="center">
       </el-table-column>
     </el-table>
-    <el-table v-else :height="height" :data="tableData" style="width: 100%" :row-class-name='fn' @row-click='click'>
+    <el-table v-else :height="height" :data="tableData" style="width: 100%" @row-click='click' v-loading="loading">
       <!-- 已办 -->
       <el-table-column type="selection" width="55">
       </el-table-column>
       <el-table-column prop="TITLE" label="标题">
       </el-table-column>
-      <el-table-column prop="USER_USERNAME" label="办理人" width="100" align="center">
+      <el-table-column prop="USER_USERNAME" label="发起人" width="100" align="center">
       </el-table-column>
       <el-table-column prop="ENDTIME" label="接收日期" width="170" align="center">
       </el-table-column>
@@ -48,9 +49,9 @@
 </template>
 
 <script>
-import { apiMyNeedTask, apiMyDoneTask, apiDeleteTask, gztid } from '../axios/config';
+import { apiMyNeedTask, apiMyDoneTask, apiDeleteTask, gztid, url } from '../axios/config';
 import { mapGetters } from 'vuex'
-import { setTimeout } from 'timers';
+
 export default {
   name: 'List',
   data() {
@@ -70,7 +71,9 @@ export default {
       arrdel: [],//将要删除的项
       disabled: true,
       searchInput: '',//搜索框关键字
-      isshowdel:true,//是否显示删除按钮
+      isshowdel: true,//是否显示删除按钮
+      openStatus: 8,//待办是8 已办是9
+      loading: false,
     }
   },
   computed: {
@@ -79,23 +82,37 @@ export default {
       return this.arrdel.join(' ')
     }
   },
+
   created() {
     this.formdata.query = ''
-    if (this.$route.query.currentid == gztid.dbid) {
-      // 我的工作台-代办
-      this.getdblistdatafn(this.formdata);
-    } else if (this.$route.query.currentid == gztid.ybid) {
-      // 我的工作台-已办
-      this.getyblistdatafn(this.formdata);
-    }
+    this.autoselect()
+    // if (this.$route.query.currentid == gztid.dbid) {
+    //   // 我的工作台-代办
+    //   this.getdblistdatafn(this.formdata);
+    // } else if (this.$route.query.currentid == gztid.ybid) {
+    //   // 我的工作台-已办
+    //   this.getyblistdatafn(this.formdata);
+    // }
+    // 窗口变化
   },
   methods: {
+    //   点击打开新窗口
     click(row, column, event) {
-      console.log('点击', row, column, event
-      );
+      console.log('点击');
+      let sessionId = JSON.parse(sessionStorage.getItem('SESSIONID'))
+      let taskId = row.ID;
+      let openurl = url + 'sys_wfRun_getOpenTask.action?sessionId=' + sessionId + '&taskId=' + taskId + '&openStatus=' + this.openStatus
+      window.open(openurl, "_blank");
     },
-    fn() {
-      //  debugger;
+    // 复选框默认是否可勾选
+    selectable(row, index) {
+      if (row.STEPNO == 1 && row.STATUS == 0 || row.STATUS == 1) {
+        // 可以删除
+        return true;
+      } else {
+        // 不可删除
+        return false;
+      }
     },
     // 选择项发生改变
     handleSelectionChange(val) {
@@ -116,15 +133,15 @@ export default {
     //清空
     clearfn() {
       this.formdata.query = ''
-      this.formdata.page = 1 
+
       this.searchInput = ''
       this.autoselect()
-      
+
     },
     // 搜索
     searchfn() {
       if (this.searchInput != '') {
-        this.formdata.page = 1
+
         this.formdata.query = this.searchInput
         this.autoselect()
       } else {
@@ -138,6 +155,10 @@ export default {
         })
 
       }
+    },
+    // 刷新
+    reloadfn() {
+      this.autoselect()
     },
     // 删除
     delfn() {
@@ -159,10 +180,7 @@ export default {
             this.formdata.query = ''
             this.autoselect()
           })
-
-
       })
-
     },
     currentchange(data) {
       this.formdata.page = data;
@@ -180,9 +198,11 @@ export default {
     },
     // 获取代办列表数据
     getdblistdatafn(formdata) {
+      this.loading = true;
       this.$post(apiMyNeedTask, formdata)
         .then((res) => {
           console.log(res);
+          this.loading = false;
           let data = res.data;
           if (res.code == 0) {
             this.isdblist = true;
@@ -195,11 +215,12 @@ export default {
     },
 
     // 获取已办列表数据
-
     getyblistdatafn(formdata) {
+      this.loading = true;
       this.$post(apiMyDoneTask, formdata)
         .then((res) => {
           console.log(res);
+          this.loading = false;
           let data = res.data;
           if (res.code == 0) {
             this.isdblist = false;
@@ -212,20 +233,22 @@ export default {
     },
 
     //自动选择待办或者已办
-    autoselect(){
-          if (this.$route.query.currentid == gztid.dbid) {
+    autoselect() {
+      this.formdata.page = 1
+      if (this.$route.query.currentid == gztid.dbid) {
         // 我的工作台-代办
         this.getdblistdatafn(this.formdata);
         this.isshowdel = true;
+        this.openStatus = 8;
       } else if (this.$route.query.currentid == gztid.ybid) {
         // 我的工作台-已办
         this.getyblistdatafn(this.formdata);
         this.isshowdel = false;
+        this.openStatus = 9;
       }
-      }
+    }
   },
   components: {
-
   },
   watch: {
     GET_CURRENT_NAV: {
@@ -235,6 +258,7 @@ export default {
       },
       deep: true
     },
+
   }
 }
 </script>

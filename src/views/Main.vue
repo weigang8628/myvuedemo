@@ -5,41 +5,27 @@
       <el-col :span="16">
         <div class="grid-content bg-purple">
           <!-- 待办列表 -->
-          <div class="zw-box" id="js_xxkbox">
-            <div class="zw-title-xxk" id="js_xxktitle">
-              <a href="#" class="zw-active">
+          <div class="zw-box" >
+            <div class="zw-title-xxk" >
+              <a href="javascript:;" :class="isdblist?'zw-active':''" @click="xxkfn(0)">
                 待办
               </a>
-              <a href="#">
+              <a href="javascript:;" :class="!isdblist?'zw-active':''" @click="xxkfn(1)">
                 已办
               </a>
             </div>
-            <div class="zw-listbox" id="js_xxklist">
+            <div class="zw-listbox" >
               <div class="zw-bllist show">
-                  <ul>
-                      <li>
-                          <a href="">标题的标题的标题的标题标题的标题的标题的标题</a>
-                          <span>[2018-10-15]</span>
-                      </li>
-                      <li>
-                          <a href="">标题的标题的标题的标题标题的标题的标题的标题</a>
-                          <span>[2018-10-15]</span>
-                      </li>
-                      <li>
-                          <a href="">标题的标题的标题的标题标题的标题的标题的标题</a>
-                          <span>[2018-10-15]</span>
-                      </li>
-                      <li>
-                          <a href="">标题的标题的标题的标题标题的标题的标题的标题</a>
-                          <span>[2018-10-15]</span>
-                      </li>
-                      <li>
-                          <a href="">标题的标题的标题的标题标题的标题的标题的标题</a>
-                          <span>[2018-10-15]</span>
-                      </li>
-                  </ul>
+                <ul>
+                  <li v-for="(item,index) in tableData"  :key="index" @click="opendetailfn(item)">
+                    <a href="javascript:;">{{item.TITLE}}</a>
+                    <span v-if="isdblist">[{{item.CREATEDATE}}]</span>
+                    <span v-else>[{{item.ENDTIME}}]</span>
+                  </li>
+                  
+                </ul>
               </div>
-              <div class="zw-bllist hide">222222222222</div>
+              
             </div>
 
           </div>
@@ -51,7 +37,7 @@
           <!-- 通知 -->
           <div class="zw-box">
             <div class="zw-title">
-              <a href="#">
+              <a href="javascript:;">
                 通知公告
               </a>
             </div>
@@ -61,7 +47,7 @@
                 <li>
                   <div class="text">
                     <h3>
-                      <a href="#">
+                      <a href="javascript:;">
                         张三
                       </a>
                     </h3>
@@ -73,13 +59,13 @@
                     </div>
                   </div>
                   <div class="zw-btn notice-btn">
-                    <a class="zw-bg-red" href="#">查看详情</a>
+                    <a class="zw-bg-red" href="javascript:;">查看详情</a>
                   </div>
                 </li>
                 <li>
                   <div class="text">
                     <h3>
-                      <a href="#">
+                      <a href="javascript:;">
                         张三
                       </a>
                     </h3>
@@ -91,13 +77,13 @@
                     </div>
                   </div>
                   <div class="zw-btn notice-btn">
-                    <a class="zw-bg-red" href="#">查看详情</a>
+                    <a class="zw-bg-red" href="javascript:;">查看详情</a>
                   </div>
                 </li>
                 <li>
                   <div class="text">
                     <h3>
-                      <a href="#">
+                      <a href="javascript:;">
                         张三
                       </a>
                     </h3>
@@ -109,7 +95,7 @@
                     </div>
                   </div>
                   <div class="zw-btn notice-btn">
-                    <a class="zw-bg-red" href="#">查看详情</a>
+                    <a class="zw-bg-red" href="javascript:;">查看详情</a>
                   </div>
                 </li>
 
@@ -125,7 +111,7 @@
         <div class="grid-content bg-purple">
           <div class="zw-box">
             <div class="zw-title">
-              <a href="#">
+              <a href="javascript:;">
                 时政要闻
               </a>
             </div>
@@ -138,13 +124,13 @@
                   </div>
                   <div class="text">
                     <h3>
-                      <a href="#">
+                      <a href="javascript:;">
                         前10月标题的标题的标题的标题
                       </a>
                     </h3>
                     <div class="info">
                       阿发老爹付款啦健身房的安吉拉开发的爱丽丝的付款就拉开发的爱丽丝的付款就拉开发的爱丽丝的付款就案例士大夫艰苦...
-                      <a class="zw-text-red" href="#">[详情]</a>
+                      <a class="zw-text-red" href="javascript:;">[详情]</a>
                     </div>
                   </div>
                 </li>
@@ -155,13 +141,13 @@
                   </div>
                   <div class="text">
                     <h3>
-                      <a href="#">
+                      <a href="javascript:;">
                         前10月标题的标题的标题的标题
                       </a>
                     </h3>
                     <div class="info">
                       阿发老爹付款啦健身房的安吉拉开发的拉开发的爱丽丝的付款就爱丽丝的付款就案例士大夫艰苦...
-                      <a class="zw-text-red" href="#">[详情]</a>
+                      <a class="zw-text-red" href="javascript:;">[详情]</a>
                     </div>
                   </div>
                 </li>
@@ -172,13 +158,13 @@
                   </div>
                   <div class="text">
                     <h3>
-                      <a href="#">
+                      <a href="javascript:;">
                         前10月标题的标题的标题的标题
                       </a>
                     </h3>
                     <div class="info">
                       阿发老爹付款啦健身房的安吉拉开发的拉开发的爱丽丝的付款就爱丽丝的付款就案例士大夫艰苦...
-                      <a class="zw-text-red" href="#">[详情]</a>
+                      <a class="zw-text-red" href="javascript:;">[详情]</a>
                     </div>
                   </div>
                 </li>
@@ -193,7 +179,7 @@
         <div class="grid-content bg-purple">
           <div class="zw-box">
             <div class="zw-title">
-              <a href="#">
+              <a href="javascript:;">
                 时政要闻
               </a>
             </div>
@@ -206,13 +192,13 @@
                   </div>
                   <div class="text">
                     <h3>
-                      <a href="#">
+                      <a href="javascript:;">
                         前10月标题的标题的标题的标题
                       </a>
                     </h3>
                     <div class="info">
                       阿发老爹付款啦健身房的安吉拉开发的爱丽丝的付款就拉开发的爱丽丝的付款就拉开发的爱丽丝的付款就案例士大夫艰苦...
-                      <a class="zw-text-red" href="#">[详情]</a>
+                      <a class="zw-text-red" href="javascript:;">[详情]</a>
                     </div>
                   </div>
                 </li>
@@ -223,13 +209,13 @@
                   </div>
                   <div class="text">
                     <h3>
-                      <a href="#">
+                      <a href="javascript:;">
                         前10月标题的标题的标题的标题
                       </a>
                     </h3>
                     <div class="info">
                       阿发老爹付款啦健身房的安吉拉开发的拉开发的爱丽丝的付款就爱丽丝的付款就案例士大夫艰苦...
-                      <a class="zw-text-red" href="#">[详情]</a>
+                      <a class="zw-text-red" href="javascript:;">[详情]</a>
                     </div>
                   </div>
                 </li>
@@ -240,13 +226,13 @@
                   </div>
                   <div class="text">
                     <h3>
-                      <a href="#">
+                      <a href="javascript:;">
                         前10月标题的标题的标题的标题
                       </a>
                     </h3>
                     <div class="info">
                       阿发老爹付款啦健身房的安吉拉开发的拉开发的爱丽丝的付款就爱丽丝的付款就案例士大夫艰苦...
-                      <a class="zw-text-red" href="#">[详情]</a>
+                      <a class="zw-text-red" href="javascript:;">[详情]</a>
                     </div>
                   </div>
                 </li>
@@ -264,34 +250,34 @@
           <!-- 简报信息 -->
           <div class="zw-box">
             <div class="zw-title">
-              <a href="#">
+              <a href="javascript:;">
                 简报信息
               </a>
             </div>
             <div class="zw-listbox">
               <ul class="newlist">
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
               </ul>
@@ -306,53 +292,123 @@
           <!-- 简报信息 -->
           <div class="zw-box">
             <div class="zw-title">
-              <a href="#">
+              <a href="javascript:;">
                 简报信息
               </a>
             </div>
             <div class="zw-listbox">
               <ul class="newlist">
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
                 <li>
-                  <h3><a href="#">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
+                  <h3><a href="javascript:;">[简报信息]国发健康的分解开来大多是解放路口打开了几分阿萨德飞机离开</a></h3>
                   <span>2018-05-12</span>
                 </li>
               </ul>
             </div>
-
           </div>
         </div>
       </el-col>
     </el-row>
-    
+
   </div>
 </template>
 
 <script>
+import { apiMyNeedTask, apiMyDoneTask, apiDeleteTask, gztid, url } from '../axios/config';
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'List',
+  data() {
+    return {
+      formdata: {
+        page: 1,
+        pageSize: 5,
+        query: "",
+        actionType: "",
+        wfId: "",
+        plugsUserId: "",
+      },
+      isdblist: true,
+      tableData: [],
+      openStatus:8
+    }
+  },
+  created() {
+    this.getdblistdatafn(this.formdata)//获取待办列表
+  },
+  methods: {
+    //   选项卡切换
+    xxkfn(id) {
+      if (id == 0) {
+        //   待办
+        this.getdblistdatafn(this.formdata)
+        this.openStatus = 8
+      } else if (id == 1) {
+        //   已办
+        this.getyblistdatafn(this.formdata)
+        this.openStatus = 9
+      }
+    },
+    // 待办已办打开新窗口
+    opendetailfn(row){
+        let sessionId = JSON.parse(sessionStorage.getItem('SESSIONID'))
+      let taskId = row.ID;
+      let openurl = url+'sys_wfRun_getOpenTask.action?sessionId='+sessionId+'&taskId='+taskId+'&openStatus='+this.openStatus
+      window.open(openurl, "_blank");
+    },
+    // 获取代办列表数据
+    getdblistdatafn(formdata) {
+      this.$post(apiMyNeedTask, formdata)
+        .then((res) => {
+          console.log(res);
+          let data = res.data;
+          if (res.code == 0) {
+            this.isdblist = true;
+            this.tableData = data.list
+
+          } else {
+          }
+        })
+
+    },
+
+    // 获取已办列表数据
+
+    getyblistdatafn(formdata) {
+      this.$post(apiMyDoneTask, formdata)
+        .then((res) => {
+          console.log(res);
+          let data = res.data;
+          if (res.code == 0) {
+            this.isdblist = false;
+            this.tableData = data.list;
+          } else {
+
+          }
+        })
+    },
+  },
   components: {
     // HelloWorld
   }
@@ -390,6 +446,8 @@ a {
 .zw-box {
   height: 330px;
   background-color: #ffffff;
+  border: 1px solid #e6e6e6;
+  //   box-shadow: 0 0 5px #cccccc;
 }
 .zw-logo {
   position: fixed;
@@ -496,7 +554,7 @@ a {
 }
 
 .zw-listbox .newlist li {
-  line-height: 50px;
+  line-height: 44px;
   position: relative;
   overflow: hidden;
 }
@@ -524,17 +582,18 @@ a {
   font-size: 14px;
 }
 // 待办已办列表
-.zw-listbox .zw-bllist{}
-.zw-listbox .zw-bllist ul li{
-    display: flex;
-    justify-content: space-between;
-    line-height: 50px;
-    border-bottom: 1px solid #e6e6e6;
-    font-size: 14px;
+.zw-listbox .zw-bllist {
 }
-.zw-listbox .zw-bllist ul li span{
-    color: #999999;
-    font-size: 14px;
+.zw-listbox .zw-bllist ul li {
+  display: flex;
+  justify-content: space-between;
+  line-height: 50px;
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 14px;
+}
+.zw-listbox .zw-bllist ul li span {
+  color: #999999;
+  font-size: 14px;
 }
 
 /* 通知公告 */
@@ -559,11 +618,14 @@ a {
 }
 
 .zw-listbox .notice li .text h3 {
-    font-size: 16px;
+  font-size: 16px;
+}
+.zw-listbox .notice li .text h3 a {
+  font-size: 16px;
 }
 
 .zw-listbox .notice li .text .info {
-    font-size: 14px;
+  font-size: 14px;
   color: #999999;
   margin-top: 5px;
   overflow: hidden;
@@ -574,7 +636,7 @@ a {
 }
 
 .zw-listbox .notice li .text .date {
-    font-size: 14px;
+  font-size: 14px;
   margin-top: 5px;
   color: #999999;
 }
@@ -648,14 +710,11 @@ a {
 .zw-topp a {
 }
 
-
-
-
 .el-row {
-    margin-bottom: 12px;
-    &:last-child {
-      margin-bottom: 0;
-    }
+  margin-bottom: 12px;
+  &:last-child {
+    margin-bottom: 0;
   }
+}
 </style>
 

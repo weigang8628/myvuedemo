@@ -408,7 +408,7 @@
     left: 0;
     top: 0;
     height: 100%;
-    background-color: #b80909;
+    background-color: #c40001;
     text-align: right;
     border-radius: 100px;
     line-height: 1;
@@ -581,13 +581,13 @@
       font-size: 28px;
       color: #8c939d; }
     .el-upload--picture-card:hover {
-      border-color: #b80909;
-      color: #b80909; }
+      border-color: #c40001;
+      color: #c40001; }
   .el-upload:focus {
-    border-color: #b80909;
-    color: #b80909; }
+    border-color: #c40001;
+    color: #c40001; }
     .el-upload:focus .el-upload-dragger {
-      border-color: #b80909; }
+      border-color: #c40001; }
 
 .el-upload-dragger {
   background-color: #fff;
@@ -617,13 +617,13 @@
     font-size: 14px;
     text-align: center; }
     .el-upload-dragger .el-upload__text em {
-      color: #b80909;
+      color: #c40001;
       font-style: normal; }
   .el-upload-dragger:hover {
-    border-color: #b80909; }
+    border-color: #c40001; }
   .el-upload-dragger.is-dragover {
     background-color: rgba(32, 159, 255, 0.06);
-    border: 2px dashed #b80909; }
+    border: 2px dashed #c40001; }
 
 .el-upload-list {
   margin: 0;
@@ -674,7 +674,7 @@
       font-size: 12px;
       cursor: pointer;
       opacity: 1;
-      color: #b80909; }
+      color: #c40001; }
     .el-upload-list__item:hover {
       background-color: #f5f7fa; }
       .el-upload-list__item:hover .el-icon-close {
@@ -684,7 +684,7 @@
     .el-upload-list__item.is-success .el-upload-list__item-status-label {
       display: block; }
     .el-upload-list__item.is-success .el-upload-list__item-name:hover, .el-upload-list__item.is-success .el-upload-list__item-name:focus {
-      color: #b80909;
+      color: #c40001;
       cursor: pointer; }
     .el-upload-list__item.is-success:focus:not(:hover) {
       /* 键盘focus */ }
@@ -728,7 +728,7 @@
     color: #606266;
     display: none; }
     .el-upload-list__item-delete:hover {
-      color: #b80909; }
+      color: #c40001; }
   .el-upload-list--picture-card {
     margin: 0;
     display: inline;

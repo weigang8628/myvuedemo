@@ -11,7 +11,7 @@
         <el-form-item label="密码">
           <el-input v-model="password" placeholder="请输入密码" show-password></el-input>
         </el-form-item>
-        <el-button type="primary" style="width:100%;" @click="login" >登录</el-button>
+        <el-button type="primary" style="width:100%;" @click="login" :loading="loading" >登录</el-button>
       </div>
     </el-form>
   </div>
@@ -25,7 +25,8 @@ export default {
     return {
       form: {},
       username: '',
-      password: ''
+      password: '',
+      loading:false
     }
   },
   created(){
@@ -41,9 +42,11 @@ export default {
           userName: this.username,
           password: this.password
         }
+        this.loading = true;
         this.$post(apiLogin, formdata)
           .then((res) => {
             console.log(res)
+            this.loading = false;
             let data = res.data;
             if (res.code == 0) {
 
@@ -55,9 +58,13 @@ export default {
                   //一级  
                   let obj1 = {
                     id: item.id,
+                    wfid:item.mobileWfId,
                     title: item.menuName,
                     index: String(index + 1),
                     path: item.mobileUrl,
+                    icon:item.mobileIcon,
+                    plugsuserid:item.plugsUserId,
+                    menuurl:item.menuUrl,
                   }
                   newnavs.push(obj1)
                   //二级
@@ -69,9 +76,13 @@ export default {
                       let j = 0;
                       let obj2 = {
                         id: item2.id,
+                        wfid:item2.mobileWfId,
                         title: item2.menuName,
                         index: String((index + 1) + '-' + (k)),
                         path: item2.mobileUrl,
+                        icon:item2.mobileIcon,
+                        plugsuserid:item2.plugsUserId,
+                        menuurl:item2.menuUrl,
                       }
                       nav2.push(obj2)
                       //  三级菜单
@@ -81,9 +92,13 @@ export default {
                           j += 1;
                           let obj3 = {
                             id: item3.id,
+                            wfid:item3.mobileWfId,
                             index: String((index + 1) + '-' + (k) + '-' + (j)),//拼接需要的index的结构1-1-1
                             title: item3.menuName,
                             path: item3.mobileUrl,
+                            icon:item3.mobileIcon,
+                            plugsuserid:item3.plugsUserId,
+                            menuurl:item3.menuUrl,
                           }
                           obj2.children.push(obj3)
                         }
@@ -94,6 +109,7 @@ export default {
               })
               sessionStorage.setItem('MENU', JSON.stringify(newnavs))//缓存处理后的三级菜单
               sessionStorage.setItem('SESSIONID', JSON.stringify(data.sid))//缓存sessionid
+            // sessionStorage.setItem('SESSIONID', JSON.stringify(data.sid))//缓存sessionid
               sessionStorage.setItem('USERNAME', JSON.stringify(data.userModel.userName))//缓存当前用户名
               this.$store.commit('MENU',newnavs)//整体菜单存入vuex
               this.$store.commit('TABS',[])//整体菜单存入vuex
@@ -102,8 +118,8 @@ export default {
               this.$router.replace({
                 path: '/Home/List',
                 query: {
-                  id: '1-1-1',
-                  currentid:'2c9110d167ba9f3d0167bb5395fe0028'
+                  id: '1-1-3',
+                //   currentid:'2c9110d167ba9f3d0167bb5395fe0028'
                 }
               })
               console.log('newnav', newnavs);
